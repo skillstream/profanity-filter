@@ -154,14 +154,11 @@ class ProfanityFilter
   end
 
   def load_exact_match_dictionary
-    en_dictionary = load_dictionary('en')
-    es_dictionary = load_dictionary('es')
-    pt_dictionary = load_dictionary('pt')
-    en_dictionary + es_dictionary + pt_dictionary
+    %w(en en-GB es pt).sum(Set.new) { |lang| load_dictionary(lang) }
   end
 
   def load_partial_match_dictionary
-    load_dictionary('partial_match')
+    Set.new load_dictionary('partial_match')
   end
 
   def shorten_language(lang)
